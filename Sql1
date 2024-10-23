@@ -1,0 +1,7 @@
+Create table postac(id_postaci INT Primary key AUTO_INCREMENT,nazwa VARCHAR(40),rodzaj ENUM('wiking','ptak','kobieta'),data_ur DATE,wiek INT unsigned);
+INSERT INTO postac (nazwa, rodzaj, data_ur ,wiek) VALUES ('Bjorn', 'wiking', '2000-12-12' ,'45');
+ INSERT INTO postac (nazwa, rodzaj, data_ur ,wiek) VALUES ('drozd', 'ptak', '2016-10-09' ,'8');
+INSERT INTO postac (nazwa, rodzaj, data_ur ,wiek) VALUES ('tesciowa', 'kobieta', '1978-07-05' ,'88');
+UPDATE postac SET wiek = 88 WHERE nazwa = 'tesciowa';
+CREATE TABLE walizka(id_walizki INT PRIMARY KEY AUTO_INCREMENT, pojemnosc INT unsigned, kolor ENUM('rozowy', 'czerwony', 'teczowy', 'zolty'), id_wlasciciela INT, FOREIGN KEY (id_wlasciciela) REFERENCES postac(id_postaci) ON DELETE CASCADE);
+Alter table walizka modify kolor VARCHAR(50) DEFAULT 'rozowy';

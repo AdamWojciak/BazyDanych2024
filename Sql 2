@@ -1,0 +1,67 @@
+DELETE FROM postac
+WHERE rodzaj = 'wiking'
+AND nazwa != 'Bjorn'
+ORDER BY wiek DESC
+LIMIT 2;
+
+ALTER TABLE postac
+DROP PRIMARY KEY;
+
+ALTER TABLE postac
+ADD COLUMN pesel CHAR(11);
+
+ALTER TABLE postac
+ADD PRIMARY KEY (pesel);
+
+ALTER TABLE postac
+MODIFY COLUMN rodzaj ENUM('wiking', 'ptak', 'kobieta', 'syrena');
+
+INSERT INTO postac (nazwa, rodzaj, data_ur, wiek) 
+VALUES ('Gertruda Nieszczera', 'syrena', '1990-04-10', 30);
+
+UPDATE postac 
+SET id_statku = 'Drakkar' 
+WHERE nazwa LIKE '%a%';
+
+UPDATE statek 
+SET max_ladownosc = max_ladownosc * 0.7
+WHERE YEAR(data_wodowania) BETWEEN 1900 AND 1999;
+
+ALTER TABLE postac
+ADD CONSTRAINT check_wiek CHECK (wiek <= 1000);
+
+INSERT INTO postac (nazwa, rodzaj, data_ur, wiek) 
+VALUES ('Loko', 'wąż', '2010-05-15', 15);
+
+CREATE TABLE Marynarz AS
+SELECT * FROM postac
+WHERE id_statku IS NOT NULL;
+
+ALTER TABLE Marynarz
+ADD PRIMARY KEY (pesel);
+
+ALTER TABLE Marynarz
+ADD FOREIGN KEY (id_statku) REFERENCES statek(nazwa_statku);
+
+UPDATE postac
+SET id_statku = NULL;
+
+DELETE FROM postac
+WHERE rodzaj = 'wiking'
+ORDER BY wiek DESC
+LIMIT 1;
+
+DELETE FROM statek;
+
+DROP TABLE statek;
+
+CREATE TABLE zwierz (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nazwa VARCHAR(100),
+    wiek INT UNSIGNED
+);
+
+INSERT INTO zwierz (nazwa, wiek)
+SELECT nazwa, wiek
+FROM postac
+WHERE rodzaj IN ('wąż', 'ptak');
